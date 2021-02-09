@@ -36,11 +36,6 @@ RUN docker-php-ext-install gd
 RUN docker-php-ext-configure zip
 RUN docker-php-ext-install zip
 
-# Install ext-imap
-RUN PHP_OPENSSL=yes apt-get install -y --no-install-recommends libc-client-dev libkrb5-dev
-RUN docker-php-ext-configure imap --with-kerberos --with-imap-ssl \
-    && docker-php-ext-install -j$(nproc) imap
-
 # Install ext-intl
 RUN docker-php-ext-configure intl && docker-php-ext-install -j$(nproc) intl
 
@@ -50,12 +45,8 @@ RUN pecl install redis && docker-php-ext-enable redis
 # https://blog.denisbondar.com/post/phpstorm_docker_xdebug (RU)
 RUN pecl install xdebug && docker-php-ext-enable xdebug
 
-
-# Install FFMPEG
-RUN apt-get -y \
-    -o Dpkg::Options::="--force-confdef" \
-    -o Dpkg::Options::="--force-confold" \
-    install ffmpeg
+# https://www.hmazter.com/2019/04/speeding-up-php-docker-with-opcache/
+RUN docker-php-ext-install opcache
 
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
