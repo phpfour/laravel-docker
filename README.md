@@ -10,8 +10,8 @@ This provides a docker-based development environment to start working with Larav
 cp .env.example .env
 docker-compose up
 docker-compose exec app composer install
-docker-compose exec php artisan key:generate
-docker-compose exec php artisan migrate
+docker-compose exec app php artisan key:generate
+docker-compose exec app php artisan migrate
 docker-compose exec front npm install && npm run dev
 ```
 
@@ -32,3 +32,13 @@ docker-compose up
 ```
 
 You can connect to the DB from your host machine through `33060` port. 
+
+-----
+
+### How to use in existing Laravel project ?
+
+Simple, just copy the following files/folders into the existing project and adjust the existing `.env` file with the values of the provided `.env.example`.
+
+- `.docker`
+- `.env.example`
+- `docker-compose.yml`
